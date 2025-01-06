@@ -16,6 +16,7 @@ return new class extends Migration
             $table->jsonb('title');
             $table->jsonb('content');
             $table->jsonb('description');
+            $table->text('image_path')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->timestamps();
         });

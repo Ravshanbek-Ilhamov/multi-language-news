@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Redis;
 class AuthContoller extends Controller
 {
 
-
     public function login(Request $request)
     {
         // Validate the request input

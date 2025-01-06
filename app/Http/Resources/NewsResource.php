@@ -16,8 +16,8 @@ class NewsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
+            'title' => is_string($this->title) ? json_decode($this->title, true) : $this->title,
+            'content' => is_string($this->content) ? json_decode($this->content, true) : $this->content,
             'description' => $this->description,
             'category' => $this->category,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

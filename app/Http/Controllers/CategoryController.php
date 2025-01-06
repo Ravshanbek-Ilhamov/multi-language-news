@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatecategoryRequest;
 use App\Http\Resources\CategoryRecourse;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CategoryController extends Controller
 {
@@ -41,11 +42,42 @@ class CategoryController extends Controller
             ]),
             'order' => $request->order ?? $category->order,
         ]);
-        return response()->json(new CategoryRecourse($category), 200);
+
+        return redirect()->back();
+        // return response()->json(new CategoryRecourse($category), 200);
     }
 
     public function destroy(Category $category){
+        // dd($category);
         $category->delete();
-        return response()->json(['message' => 'Category deleted successfully'], 204);
+        return redirect()->back();
+
+        // return response()->json(['message' => 'Category deleted successfully'], 204);
     }
+
+    public function allCategories(){
+        $categories = Category::paginate(5);
+        return view('categories.index', compact('categories'));
+    }
+
+    public function changeLang(Request $request){
+        // App::setLocale($request->lang);
+        session()->put('lang', $request->lang);
+        
+        return redirect()->back();
+    }
+
+    public function storeCat(CategoryRequest $request)
+    {
+        $category = Category::create([
+            'name' => [
+                'uz' => $request->name_uz,
+                'en' => $request->name_en,
+                'ru' => $request->name_ru
+            ],
+            'order' => $request->order
+        ]);
+        return redirect()->back();
+    }
+
 }

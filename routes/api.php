@@ -13,20 +13,22 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register',[AuthContoller::class,'register']);
 Route::post('/login',[AuthContoller::class,'login']);
-Route::post('/logout',[AuthContoller::class,'logout']);
+Route::post('/logout',[AuthContoller::class,'logout'])->middleware('auth:sanctum');
 Route::post('/take-token',[AuthContoller::class,'takeToken']);
 Route::post('/forget-password',[AuthContoller::class,'forgetPassword']);
 
 
-Route::get('/categories',[CategoryController::class,'index']);
-Route::post('/categories',[CategoryController::class,'store']);
-Route::get('/categories/{category}',[CategoryController::class,'show']);
-Route::put('/categories/{category}',[CategoryController::class,'update']);
-Route::delete('/categories/{category}',[CategoryController::class,'destroy']);
-
-Route::get('/newses',[NewsController::class,'index']);
-Route::post('/news',[NewsController::class,'store']);
-Route::get('/news/{news}',[NewsController::class,'show']);
-Route::put('/news/{news}',[NewsController::class,'update']);
-Route::delete('/news/{news}',[NewsController::class,'destroy']);
-Route::get('/news/category/{category}',[NewsController::class,'filterByCategory']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/categories',[CategoryController::class,'index']);
+    Route::post('/categories',[CategoryController::class,'store']);
+    Route::get('/categories/{category}',[CategoryController::class,'show']);
+    Route::put('/categories/{category}',[CategoryController::class,'update']);
+    Route::delete('/categories/{category}',[CategoryController::class,'destroy']);
+    
+    Route::get('/newses',[NewsController::class,'index']);
+    Route::post('/news',[NewsController::class,'store']);
+    Route::get('/news/{news}',[NewsController::class,'show']);
+    Route::put('/news/{news}',[NewsController::class,'update']);
+    Route::delete('/news/{news}',[NewsController::class,'destroy']);
+    Route::get('/news/category/{category}',[NewsController::class,'filterByCategory']);
+});
